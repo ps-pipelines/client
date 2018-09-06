@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class PetService {
 
-  private petsUrl = 'http://pos:5000/api/images';  // URL to web api
+  private petsUrl = 'http://images:5000/api/images';  // URL to web api
 
   constructor(
     private http: HttpClient,
