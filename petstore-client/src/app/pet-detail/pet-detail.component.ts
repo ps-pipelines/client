@@ -25,7 +25,7 @@ export class PetDetailComponent implements OnInit {
 
   getPet(): void {
     const id = this.route.snapshot.params["id"];
-    this.petService.getHero(id)
+    this.petService.getPet(id)
       .subscribe(pet => this.pet = pet);
   }
 

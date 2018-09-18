@@ -18,6 +18,6 @@ export class DashboardComponent implements OnInit {
 
   getPets(): void {
     this.petService.getPets()
-      .subscribe(pets => this.pets = pets.slice(1, 5));
+      .subscribe(pets => this.pets = pets.slice(0, 4));
   }
 }

@@ -2,7 +2,7 @@
 <div class="grid grid-pad">
   <a *ngFor="let pet of pets" class="col-1-4 topPet"
       routerLink="/detail/{{pet.id}}">
-    <div class="module hero">
+    <div class="module pet">
       <!-- <img [src]="'data:image/jpg;base64,'+pet.content" /> -->
       <h4>{{pet.name}}</h4>
     </div>

@@ -20,21 +20,21 @@ export class PetService {
     private http: HttpClient,
     private messageService: MessageService) { }
 
-  /** GET heroes from the server */
+  /** GET pets from the server */
   getPets (): Observable<Pet[]> {
     return this.http.get<Pet[]>(this.petsUrl)
       .pipe(
-        tap(heroes => this.log('fetched heroes')),
-        catchError(this.handleError('getHeroes', []))
+        tap(pets => this.log(`fetched pets ${pets.length}`)),
+        catchError(this.handleError('getpets', []))
       );
   }
 
-  /** GET hero by id. Return `undefined` when id not found */
+  /** GET pet by id. Return `undefined` when id not found */
   getPetNo404<Data>(id: string): Observable<Pet> {
     const url = `${this.petsUrl}/?id=${id}`;
     return this.http.get<Pet[]>(url)
       .pipe(
-        map(heroes => heroes[0]), // returns a {0|1} element array
+        map(pets => pets[0]), // returns a {0|1} element array
         tap(h => {
           const outcome = h ? `fetched` : `did not find`;
           this.log(`${outcome} pet id=${id}`);
@@ -43,50 +43,50 @@ export class PetService {
       );
   }
 
-  /** GET hero by id. Will 404 if id not found */
-  getHero(id: string): Observable<Pet> {
+  /** GET pet by id. Will 404 if id not found */
+  getPet(id: string): Observable<Pet> {
     //const url = `${this.petsUrl}/${id}`;
     const url = `${this.petsUrl}/?id=${id}`;
     return this.http.get<Pet>(url).pipe(
-      tap(_ => this.log(`fetched hero id=${id}`)),
+      tap(_ => this.log(`fetched pet id=${id}`)),
       catchError(this.handleError<Pet>(`getpet id=${id}`))
     );
   }
 
-  /* GET heroes whose name contains search term */
+  /* GET pets whose name contains search term */
   searchPets(term: string): Observable<Pet[]> {
     if (!term.trim()) {
-      // if not search term, return empty hero array.
+      // if not search term, return empty pet array.
       return of([]);
     }
     return this.http.get<Pet[]>(`${this.petsUrl}/?name=${term}`).pipe(
-      tap(_ => this.log(`found heroes matching "${term}"`)),
-      catchError(this.handleError<Pet[]>('searchHeroes', []))
+      tap(_ => this.log(`found pets matching "${term}"`)),
+      catchError(this.handleError<Pet[]>('searchpets', []))
     );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new hero to the server */
+  /** POST: add a new pet to the server */
   addPet (pet: Pet): Observable<Pet> {
     return this.http.post<Pet>(this.petsUrl, pet, httpOptions).pipe(
-      tap((hero: Pet) => this.log(`added hero w/ id=${hero.id}`)),
+      tap((pet: Pet) => this.log(`added pet w/ id=${pet.id}`)),
       catchError(this.handleError<Pet>('addPet'))
     );
   }
 
-  /** DELETE: delete the hero from the server */
+  /** DELETE: delete the pet from the server */
   deletePet (pet: Pet | number): Observable<Pet> {
     const id = typeof pet === 'number' ? pet : pet.id;
     const url = `${this.petsUrl}/${id}`;
 
     return this.http.delete<Pet>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted hero id=${id}`)),
+      tap(_ => this.log(`deleted pet id=${id}`)),
       catchError(this.handleError<Pet>('deletePet'))
     );
   }
 
-  /** PUT: update the hero on the server */
+  /** PUT: update the pet on the server */
   updatePet (pet: Pet): Observable<any> {
     return this.http.put(this.petsUrl, pet, httpOptions).pipe(
       tap(_ => this.log(`updated pet id=${pet.id}`)),
@@ -114,7 +114,7 @@ export class PetService {
     };
   }
 
-  /** Log a HeroService message with the MessageService */
+  /** Log a petService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`PetService: ${message}`);
   }
